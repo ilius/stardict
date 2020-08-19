@@ -289,6 +289,10 @@ func NewDictionary(ifo, idx, dict io.Reader) (*Dictionary, error) {
 	return d, nil
 }
 
+func (d *Dictionary) GetBookName() string {
+	return d.info.Dict["bookname"]
+}
+
 // https://github.com/huzheng001/stardict-3/blob/master/dict/doc/StarDictFileFormat#L106
 func (d *Dictionary) isSameTypeSequence() bool {
 	_, ok := d.info.Dict["sametypesequence"]
