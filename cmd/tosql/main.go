@@ -85,7 +85,7 @@ func main() {
 	}
 	defer f3.Close()
 
-	d, err := parser.NewDictionary(f1, f2, f3)
+	d, err := parser.LoadCompressedDictionary(f1, f2, f3)
 	if err != nil {
 		log.Fatalf("%s\n", "fail to create new dictionary")
 	}

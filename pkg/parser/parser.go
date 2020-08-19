@@ -3,6 +3,7 @@ package parser
 import (
 	"bufio"
 	"bytes"
+	"compress/gzip"
 	"encoding/binary"
 	"errors"
 	"io"
@@ -241,6 +242,7 @@ func mkchan(ifo, idx, dict io.Reader, d *Dictionary) <-chan error {
 		defer wg.Done()
 		info, err := newInfo(ifo)
 		if err != nil {
+			log.Printf("error in newInfo: %v", err)
 			ret <- err
 			return
 		}
@@ -251,6 +253,7 @@ func mkchan(ifo, idx, dict io.Reader, d *Dictionary) <-chan error {
 		defer wg.Done()
 		index, err := newIndex(idx)
 		if err != nil {
+			log.Printf("error in newIndex: %v", err)
 			ret <- err
 			return
 		}
@@ -259,13 +262,9 @@ func mkchan(ifo, idx, dict io.Reader, d *Dictionary) <-chan error {
 
 	go func() {
 		defer wg.Done()
-		raw, err := ioutil.ReadAll(dict)
+		content, err := ioutil.ReadAll(dict)
 		if err != nil {
-			ret <- err
-			return
-		}
-		content, err := Gunzip(raw)
-		if err != nil {
+			log.Printf("error in ioutil.ReadAll(dict): %v", err)
 			ret <- err
 			return
 		}
@@ -277,13 +276,29 @@ func mkchan(ifo, idx, dict io.Reader, d *Dictionary) <-chan error {
 	return ret
 }
 
-func NewDictionary(ifo, idx, dict io.Reader) (*Dictionary, error) {
+func LoadDictionary(ifo, idx, dict io.Reader) (*Dictionary, error) {
 	d := &Dictionary{
 		offset: 0,
 	}
 	for err := range mkchan(ifo, idx, dict, d) {
 		if err != nil {
-			log.Fatal(err)
+			return nil, err
+		}
+	}
+	return d, nil
+}
+
+func LoadCompressedDictionary(ifo, idx, dict io.Reader) (*Dictionary, error) {
+	dict, err := gzip.NewReader(dict)
+	if err != nil {
+		return nil, err
+	}
+	d := &Dictionary{
+		offset: 0,
+	}
+	for err := range mkchan(ifo, idx, dict, d) {
+		if err != nil {
+			return nil, err
 		}
 	}
 	return d, nil

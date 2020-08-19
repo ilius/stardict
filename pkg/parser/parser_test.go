@@ -49,7 +49,7 @@ func TestDictionary(t *testing.T) {
 		t.Fatalf("%s\n", "fail to create new dictionary")
 	}
 	defer f3.Close()
-	d, err := NewDictionary(f1, f2, f3)
+	d, err := LoadCompressedDictionary(f1, f2, f3)
 	if err != nil {
 		t.Fatalf("%s\n", "fail to create new dictionary")
 	}
@@ -95,7 +95,7 @@ func TestNonSequenceDictionary(t *testing.T) {
 	}
 	defer f3.Close()
 
-	d, err := NewDictionary(f1, f2, f3)
+	d, err := LoadCompressedDictionary(f1, f2, f3)
 	if err != nil {
 		t.Fatalf("%s\n", "fail to create new dictionary")
 	}

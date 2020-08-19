@@ -30,7 +30,7 @@ type Engine struct {
 
 func NewEngine(ifo, idx, d io.Reader) (*Engine, error) {
 	var fflow []string
-	dict, err := parser.NewDictionary(ifo, idx, d)
+	dict, err := parser.LoadCompressedDictionary(ifo, idx, d)
 	if err != nil {
 		return nil, err
 	}

@@ -1,7 +1,9 @@
 package main
 
 import (
+	"compress/gzip"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"strings"
@@ -11,40 +13,49 @@ import (
 
 type Dictionary struct {
 	*parser.Dictionary
-
-	ifoFile  *os.File
-	idxFile  *os.File
-	dictFile *os.File
 }
 
 func (d *Dictionary) Close() {
-	d.ifoFile.Close()
-	d.idxFile.Close()
-	d.dictFile.Close()
 }
 
-func NewDictionary(basePath string) (*Dictionary, error) {
+func LoadDictionary(basePath string) (*Dictionary, error) {
 	ifoFile, err := os.Open(basePath + ".ifo")
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to open .ifo: %w", err)
 	}
+	defer ifoFile.Close()
 	idxFile, err := os.Open(basePath + ".idx")
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to open .idx: %w", err)
 	}
-	dictFile, err := os.Open(basePath + ".dict.dz")
+	defer idxFile.Close()
+	var dict io.ReadCloser
+	dict, err = os.Open(basePath + ".dict")
 	if err != nil {
-		return nil, err
+		if !os.IsNotExist(err) {
+			return nil, fmt.Errorf("failed to open .dict: %w", err)
+		}
+		dictDz, err := os.Open(basePath + ".dict.dz")
+		if err != nil {
+			return nil, fmt.Errorf("failed to open .dict.dz: %w", err)
+		}
+		defer dictDz.Close()
+		dict, err = gzip.NewReader(dictDz)
+		if err != nil {
+			return nil, fmt.Errorf("error in gzip.NewReader: %w", err)
+		}
 	}
-	pdic, err := parser.NewDictionary(ifoFile, idxFile, dictFile)
+	if dict == nil {
+		return nil, fmt.Errorf("dict == nil")
+	}
+	defer dict.Close()
+
+	pdic, err := parser.LoadDictionary(ifoFile, idxFile, dict)
 	if err != nil {
 		return nil, err
 	}
 	return &Dictionary{
 		Dictionary: pdic,
-		ifoFile:    ifoFile,
-		idxFile:    idxFile,
-		dictFile:   dictFile,
 	}, nil
 }
 
@@ -63,8 +74,7 @@ func Open(rootPath string) (DictionaryList, error) {
 			return nil
 		}
 		basePath := path[:len(path)-4]
-		// if os.Stat(basePath + ".dict.dz")
-		dic, err := NewDictionary(basePath)
+		dic, err := LoadDictionary(basePath)
 		if err != nil {
 			fmt.Printf("error while opening %v: %v\n", path, err)
 			return nil
