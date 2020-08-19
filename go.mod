@@ -1,4 +1,4 @@
-module github.com/rongyi/stardict
+module github.com/ilius/stardict
 
 go 1.14
 

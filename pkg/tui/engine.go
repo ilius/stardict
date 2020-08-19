@@ -8,8 +8,8 @@ import (
 	"strings"
 
 	"github.com/nsf/termbox-go"
-	"github.com/rongyi/stardict/pkg/dump"
-	"github.com/rongyi/stardict/pkg/parser"
+	"github.com/ilius/stardict/pkg/dump"
+	"github.com/ilius/stardict/pkg/parser"
 )
 
 const (

@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/rongyi/stardict/pkg/tui"
+	"github.com/ilius/stardict/pkg/tui"
 )
 
 var (

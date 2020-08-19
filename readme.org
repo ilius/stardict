@@ -7,9 +7,9 @@
 * 截图
 [[./img/out.gif]]
 * 自带朗道词典预编译版本
-+ [[https://github.com/rongyi/stardict/releases/download/0.1/stardict-linux][Linux版本]]
-+ [[https://github.com/rongyi/stardict/releases/download/0.1/stardict-mac][Mac版本]]
-+ [[https://github.com/rongyi/stardict/releases/download/0.1/stardict-windows][Windows版本]] 未验证
++ [[https://github.com/ilius/stardict/releases/download/0.1/stardict-linux][Linux版本]]
++ [[https://github.com/ilius/stardict/releases/download/0.1/stardict-mac][Mac版本]]
++ [[https://github.com/ilius/stardict/releases/download/0.1/stardict-windows][Windows版本]] 未验证
 
   网上找到的字典，本人未作商业用途，仅作学习用途，不要告我
 * Footnotes

@@ -8,8 +8,8 @@ import (
 	"strings"
 
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/rongyi/stardict/pkg/parser"
-	"github.com/rongyi/stardict/pkg/sql"
+	"github.com/ilius/stardict/pkg/parser"
+	"github.com/ilius/stardict/pkg/sql"
 	log "github.com/sirupsen/logrus"
 )
 

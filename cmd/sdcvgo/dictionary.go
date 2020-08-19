@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/rongyi/stardict/pkg/parser"
+	"github.com/ilius/stardict/pkg/parser"
 )
 
 type Dictionary struct {
