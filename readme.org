@@ -1,17 +1,10 @@
-* about
-  stardict go版本parser
+* About
+   StarDict Go parser
 
-  协议格式[fn:1]，这里[fn:2]也有简单的解释。总之还是蛮简单的。
+   The protocol format is [fn:1], where [fn:2] also has a simple explanation. In short it is quite simple.
 
-  词库下载[fn:3]
-* 截图
-[[./img/out.gif]]
-* 自带朗道词典预编译版本
-+ [[https://github.com/ilius/stardict/releases/download/0.1/stardict-linux][Linux版本]]
-+ [[https://github.com/ilius/stardict/releases/download/0.1/stardict-mac][Mac版本]]
-+ [[https://github.com/ilius/stardict/releases/download/0.1/stardict-windows][Windows版本]] 未验证
+   Thesaurus download [fn:3]
 
-  网上找到的字典，本人未作商业用途，仅作学习用途，不要告我
 * Footnotes
 
 [fn:1] https://github.com/huzheng001/stardict-3/blob/master/dict/doc/StarDictFileFormat
